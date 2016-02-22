@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ name }}</title>
+</head>
+<body>
+{{ name }}， welcome to your home
+{{ url_for('say_hello', name='you', _external=True) }}
+</body>
+</html>
