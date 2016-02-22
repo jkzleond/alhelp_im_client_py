@@ -6,5 +6,8 @@
 </head>
 <body>
 {{ word|title }}
+{% for member in members %}
+    <div><span>{{ member.id }}</span>:{{ member.nickname }}</div>
+{% endfor %}
 </body>
 </html>
