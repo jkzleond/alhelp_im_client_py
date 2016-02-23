@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{{ word|title }}
-{% for member in members %}
-    <div><span>{{ member.id }}</span>:{{ member.nickname }}</div>
-{% endfor %}
-</body>
-</html>
+{% extends('base.html') %}
+{% block content %}
+    <div>
+        <input id="msg_box" type="text">
+        <button id="send_btn">send</button>
+        <ul id="msg_container">
+
+        </ul>
+    </div>
+{% endblock %}

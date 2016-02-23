@@ -1,9 +1,24 @@
-from flask import Flask, g, request, render_template, request_finished, template_rendered
+import sys
+
+sys.getdefaultencoding()
+reload(sys)
+sys.setdefaultencoding('UTF-8')
+
+from flask import Flask, g, request, session, render_template, request_finished, template_rendered
 from flask_socketio import SocketIO, emit, send
 from app import app
 import views
 
+
 sio = SocketIO(app)
+
+online_users = {}
+
+
+@app.before_first_request
+def before_first_request():
+    print 'first_request'
+
 
 @app.before_request
 def before_request():
@@ -25,7 +40,34 @@ def template_rendered_subscriber(sender, template, context, **extra):
 
 @sio.on('connect')
 def on_connect():
-    send('connected')
+    online_users[session['nickname']] = request.sid
+    sio.emit('connected', session['nickname'] + 'is online')
+
+
+@sio.on('disconnect')
+def on_disconnect():
+    if hasattr(online_users, session['nickname']):
+        del online_users[session['nickname']]
+    sio.send(session['nickname'] + 'is offline', include_self=False)
+
+
+@sio.on('message')
+def on_message(msg):
+    print online_users
+    to_sid = None
+    if msg.startswith('@'):
+        msg_start = msg.index(':')
+        to_nickname = msg[1:msg_start]
+        to_sid = online_users.get(to_nickname)
+        print online_users
+        if not to_sid:
+            send(to_nickname + 'is not online')
+            return
+        else:
+            sio.send(session['nickname'] + 'say to your:' + msg[msg_start+1:], room=to_sid)
+    else:
+        sio.send(session['nickname'] + ':' + msg, room=to_sid)
+
 
 if __name__ == '__main__':
     sio.run(app, use_reloader=True)

@@ -1,13 +1,16 @@
-from flask import render_template
+from flask import request, session, render_template
 from app import app
 from models import db, Member
 
 @app.route('/')
 def hello_world():
 #   member = db.engine.execute('select * from member').fetchone()
-    member = Member.query.order_by('id').first()
-    members = Member.query.all()
-    return render_template('index.html', word=member.nickname + 'hello world!ha', members=members)
+    member_id = request.args.get('uid')
+    member = Member.query.order_by('id').filter(Member.id == member_id).first()
+    session['nickname'] = member.nickname
+    # members = Member.query.all()
+
+    return render_template('index.html', word=member.nickname)
 
 
 @app.route('/user/<name>')

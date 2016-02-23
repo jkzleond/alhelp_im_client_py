@@ -3,3 +3,4 @@ from contextlib import contextmanager
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
+app.config['SECRET_KEY'] = 'BX_12@bt'
