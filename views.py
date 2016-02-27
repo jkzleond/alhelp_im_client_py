@@ -2,6 +2,7 @@ from flask import request, session, render_template
 from app import app
 from models import db, Member
 
+
 @app.route('/')
 def hello_world():
 #   member = db.engine.execute('select * from member').fetchone()

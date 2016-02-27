@@ -1,10 +1,12 @@
 {% extends('base.html') %}
 {% block content %}
-    <div>
-        <input id="msg_box" type="text">
-        <button id="send_btn">send</button>
+    {% raw %}
+    <div ng-controller="TController">
+        <input id="msg_box" type="text" ng-model="msg_content">
+        <button id="send_btn" ng-click="send_msg(msg_content)">send</button>
         <ul id="msg_container">
-
+            <li ng-repeat="msg in msgs">{{ msg.content }}</li>
         </ul>
     </div>
+    {% endraw %}
 {% endblock %}

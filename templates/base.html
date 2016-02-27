@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="my_app">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     {% block head_js %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/angular.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/app/main.js') }}"></script>
     {% endblock %}

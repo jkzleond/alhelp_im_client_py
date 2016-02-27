@@ -45,15 +45,14 @@ def on_connect():
 
 
 @sio.on('disconnect')
-def on_disconnect():
+def on_disconnect(*args):
     if hasattr(online_users, session['nickname']):
         del online_users[session['nickname']]
-    sio.send(session['nickname'] + 'is offline', include_self=False)
+        sio.send(session['nickname'] + 'is offline', include_self=False)
 
 
 @sio.on('message')
 def on_message(msg):
-    print online_users
     to_sid = None
     if msg.startswith('@'):
         msg_start = msg.index(':')
