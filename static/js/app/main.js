@@ -66,11 +66,12 @@ app.controller('ChatListController', ['$scope', 'sio', function($scope, sio){
 
     sio.on('res_friends', function(res){
         if(res.success == false) return;
-        $scope.friends = res.data.list || []
+        $scope.friends = res.data.list || [];
     });
 
-    sio.on('res_groups', function(data){
-        $scope.groups = data;
+    sio.on('res_groups', function(res){
+        if(res.success == false) return;
+        $scope.groups = res.data.list || [];
     });
 
     sio.on('res_rct_contacts', function(data){

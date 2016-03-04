@@ -133,12 +133,7 @@ apis = {
     'get_groups': {
         'need_token': True,
         'method': 'GET',
-        'url': 'v1/im/groups?p=1&ps=2',
-        'data': {
-            'filters': {
-                'name': '我们的群'
-            }
-        }
+        'url': 'v1/im/groups'
     },
     'get_demand_collaborate': {
         'need_token': True,
@@ -344,6 +339,8 @@ def get_friends():
 @sio.on('get_groups')
 def get_groups():
     send('get_groups')
+    data = api_request('get_groups')
+    emit('res_groups', data)
 
 def api_request(api_name, data=None):
     try:
@@ -404,7 +401,7 @@ if __name__ == '__main__':
             def run(self):
                 try:
                     sio.run(app, host='0.0.0.0')
-                except IOError as e:
+                except Exception as e:
                     print e.errno
 
 
