@@ -341,6 +341,10 @@ def get_friends():
     emit('res_friends', data)
 
 
+@sio.on('get_groups')
+def get_groups():
+    send('get_groups')
+
 def api_request(api_name, data=None):
     try:
         api_config = apis.get(api_name)
