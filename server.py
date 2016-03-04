@@ -276,7 +276,7 @@ apis = {
     }
 }
 
-token_url = 'http://localhost:8850/v1/tokens'
+token_url = 'http://api.alhelp.net/v1/tokens'
 
 
 
