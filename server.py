@@ -398,7 +398,7 @@ if __name__ == '__main__':
                 self.pidfile_timeout = 5
 
             def run(self):
-                sio.run(app)
+                sio.run(app, host='0.0.0.0')
 
         daemon_app = DaemonApp()
         daemon_runner = runner.DaemonRunner(daemon_app)
