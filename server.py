@@ -405,4 +405,4 @@ if __name__ == '__main__':
         daemon_runner.do_action()
     else:
         app.config['DEBUG'] = True
-        sio.run(app, use_reloader=True)
+        sio.run(app, use_reloader=True, host='0.0.0.0')
