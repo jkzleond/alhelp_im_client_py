@@ -18,8 +18,8 @@
         </ul>
     </div>
 
-    <div id="xximmm" class="xxim_main" ng-controller="ChatListController">
-        <div class="xxim_top" id="xxim_top" ng-init="tab=1" ng-switch on="tab">
+    <div id="xximmm" class="xxim_main" ng-controller="MainController" ng-show="app_ready">
+        <div class="xxim_top" id="xxim_top" ng-init="tab=1" ng-switch on="tab" ng-controller="ChatListController">
             <div class="xxim_search"><i></i><input id="xxim_searchkey" />
                 <span id="xxim_closesearch">×</span>
             </div>

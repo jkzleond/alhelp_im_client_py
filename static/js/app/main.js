@@ -41,10 +41,12 @@ app.factory('sio', ['$rootScope', function($rootScope){
     };
 }]);
 
-
-
-app.controller('TController', ['$scope', function($scope){
-
+app.controller('MainController', ['$scope', 'sio', function($scope, sio){
+    $scope.app_ready = false;
+    sio.on('connect', function(){
+        $scope.app_ready = true;
+        $scope.$apply();
+    });
 }]);
 
 app.controller('ChatListController', ['$scope', 'sio', function($scope, sio){
@@ -74,7 +76,8 @@ app.controller('ChatListController', ['$scope', 'sio', function($scope, sio){
         $scope.groups = res.data.list || [];
     });
 
-    sio.on('res_rct_contacts', function(data){
-        $scope.rct_contacts = data;
+    sio.on('res_rct_contacts', function(res){
+        if(res.success == false) return;
+        $scope.rct_contacts = res.data.list || []
     });
 }]);

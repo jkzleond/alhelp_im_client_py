@@ -76,7 +76,7 @@ apis = {
     'get_rct_contacts': {
         'need_token': True,
         'method': 'GET',
-        'url': 'v1/im/message/rct_contacts?uid=13653',
+        'url': 'v1/im/message/rct_contacts',
         'data': None
     },
     'add_group': {
@@ -342,6 +342,12 @@ def get_groups():
     data = api_request('get_groups')
     emit('res_groups', data)
 
+@sio.on('get_rct_contacts')
+def get_rct_contacts():
+    send('get_rct_contacts')
+    data = api_request('get_rct_contacts')
+    emit('res_rct_contacts', data)
+
 def api_request(api_name, data=None):
     try:
         api_config = apis.get(api_name)
@@ -399,10 +405,7 @@ if __name__ == '__main__':
                 self.pidfile_timeout = 5
 
             def run(self):
-                try:
-                    sio.run(app, host='0.0.0.0')
-                except Exception as e:
-                    print e.errno
+                sio.run(app, host='0.0.0.0')
 
 
         daemon_app = DaemonApp()
