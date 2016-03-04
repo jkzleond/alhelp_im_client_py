@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding=utf-8 -*-
 import sys
 
@@ -13,12 +14,11 @@ from flask_socketio import SocketIO, emit, send
 from app import app
 import views
 
-
 sio = SocketIO(app)
 
 online_users = {}
 
-api_host = 'http://api.alhelp.net'
+api_host = 'http://api.alhelp.net/'
 # api_host = 'http://localhost:8850/'
 apis = {
     'get_friends': {
@@ -379,6 +379,30 @@ def api_request(api_name, data=None):
         res_data = {'success': False, 'message': u'请求数据异常'}
     return res_data
 
-
 if __name__ == '__main__':
-    sio.run(app, use_reloader=True)
+    import getopt
+    opt, argv = getopt.getopt(sys.argv[1:], 'd')
+    from daemon import runner
+
+    if len(opt) > 0 and '-d' in opt[0]:
+        sys.argv = [sys.argv[0]] + argv
+
+        app.config['DEBUG'] = False
+        class DaemonApp(object):
+
+            def __init__(self):
+                self.stdin_path = '/dev/null'
+                self.stdout_path = '/var/log/alhelp-im.log'
+                self.stderr_path = '/var/log/alhelp-im-err.log'
+                self.pidfile_path =  '/var/run/alhelp-im.pid'
+                self.pidfile_timeout = 5
+
+            def run(self):
+                sio.run(app)
+
+        daemon_app = DaemonApp()
+        daemon_runner = runner.DaemonRunner(daemon_app)
+        daemon_runner.do_action()
+    else:
+        app.config['DEBUG'] = True
+        sio.run(app, use_reloader=True)

@@ -19,12 +19,12 @@
     </div>
 
     <div id="xximmm" class="xxim_main" ng-controller="ChatListController">
-        <div class="xxim_top" id="xxim_top" ng-init="tab=2" ng-switch on="tab">
+        <div class="xxim_top" id="xxim_top" ng-init="tab=1" ng-switch on="tab">
             <div class="xxim_search"><i></i><input id="xxim_searchkey" />
                 <span id="xxim_closesearch">×</span>
             </div>
             <div class="xxim_tabs" id="xxim_tabs">
-                <span class="xxim_tabfriend" title="好友" ng-click="get_friends();tab=1"><i>{{ tab }}</i></span>
+                <span class="xxim_tabfriend" title="好友" ng-click="get_friends();tab=1"><i></i></span>
                 <span class="xxim_tabgroup" title="群组" ng-click="tab=2"><i></i></span>
                 <span class="xxim_latechat"  title="最近聊天" ng-click="tab=3"><i></i></span>
             </div>
@@ -38,7 +38,7 @@
                     </ul>
                 </li>
             </ul>
-            <ul class="xxim_list" ng-switch-when="2">
+            <ul class="xxim_list" style="display:block" ng-switch-when="2">
                 <li class="xxim_liston">
                     <ul class="xxim_chatlist" ng-repeat="group in groups">
                         <li data-id="{{ group.id }}" class="xxim_childnode" type="group">
@@ -48,7 +48,7 @@
                     </ul>
                 </li>
             </ul>
-            <ul class="xxim_list" ng-switch-when="3">
+            <ul class="xxim_list" style="display:block" ng-switch-when="3">
                 <li class="xxim_liston">
                     <ul class="xxim_chatlist" ng-repeat="contact in rec_contacts">
                         <li data-id="{{ contact.contact_id }}" class="xxim_childnode" type="{{ contact.is_to_group }}">
