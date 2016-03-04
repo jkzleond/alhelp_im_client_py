@@ -25,32 +25,55 @@
 
 var app = angular.module('my_app', []);
 
-app.factory('sio', function(){
-    return io();
-});
-
-app.run(['$rootScope', 'sio', function($rootScope, sio){
-    $rootScope.msgs = [];
-
-    $rootScope.send_msg = function(msg){
-        sio.send(msg);
-    };
-
-    var last_receive_time = 0;
-    var digest_throttle = 200;
-
-    sio.on('message', function(msg){
-        $rootScope.msgs.push({content:msg});
-        var now = Date.now();
-        if(now - last_receive_time > digest_throttle){
-            $rootScope.$apply();
-            last_receive_time = now;
+app.factory('sio', ['$rootScope', function($rootScope){
+    var native_sio = io();
+    return {
+        on: function(event, callback){
+            var self = this;
+            native_sio.on(event, function(){
+                callback.apply(self, arguments);
+                $rootScope.$apply();
+            });
+        },
+        emit: function(){
+            native_sio.emit.apply(native_sio, arguments);
         }
-    });
+    };
 }]);
 
 
 
 app.controller('TController', ['$scope', function($scope){
 
+}]);
+
+app.controller('ChatListController', ['$scope', 'sio', function($scope, sio){
+    $scope.get_friends = function(){
+        sio.emit('get_friends');
+    };
+
+    $scope.get_groups = function(){
+        sio.emit('get_groups');
+    };
+
+    $scope.get_rct_contacts = function(){
+        sio.emit('get_rct_contacts');
+    };
+
+    sio.on('message', function(msg){
+        console.log(msg)
+    });
+
+    sio.on('res_friends', function(res){
+        if(res.success == false) return;
+        $scope.friends = res.data.list || []
+    });
+
+    sio.on('res_groups', function(data){
+        $scope.groups = data;
+    });
+
+    sio.on('res_rct_contacts', function(data){
+        $scope.rct_contacts = data;
+    });
 }]);
