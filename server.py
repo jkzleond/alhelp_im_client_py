@@ -402,7 +402,11 @@ if __name__ == '__main__':
                 self.pidfile_timeout = 5
 
             def run(self):
-                sio.run(app, host='0.0.0.0')
+                try:
+                    sio.run(app, host='0.0.0.0')
+                except IOError as e:
+                    print e.errno
+
 
         daemon_app = DaemonApp()
         daemon_runner = runner.DaemonRunner(daemon_app)
