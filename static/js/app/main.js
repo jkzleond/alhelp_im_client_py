@@ -23,10 +23,14 @@
 //    }
 //}(window, document));
 
-var app = angular.module('my_app', []);
+var app = angular.module('my_app', ['ngAnimate']);
+
+app.run(['$rootScope', function($rootScope){
+    $rootScope.now_chat = {};
+}]);
 
 app.factory('sio', ['$rootScope', function($rootScope){
-    var native_sio = io();
+    var native_sio = io('/', {transports: ['polling']});
     return {
         on: function(event, callback){
             var self = this;

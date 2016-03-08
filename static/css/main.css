@@ -1,0 +1,38 @@
+.list-animate {
+    -webkit-transition: 0.5s linear all;
+    transition: 0.5s linear all;
+}
+
+.list-animate.ng-enter {
+    opacity: 0
+}
+
+.list-animate.ng-enter-stagger {
+    -webkit-transition-delay:200ms;
+    transition-delay:200ms;
+    /* 防止意外CSS继承的保护措施 */
+    -webkit-transition-duration:0ms;
+    transition-duration:0ms;
+}
+
+.list-animate.ng-leave-stagger {
+    -webkit-transition-delay:200ms;
+    transition-delay:200ms;
+    /* 防止意外CSS继承的保护措施 */
+    -webkit-transition-duration:0ms;
+    transition-duration:0ms;
+}
+
+.list-animate.ng-leave {
+    -webkit-transition: none;
+    transition: none;
+    opacity: 1
+}
+
+.list-animate.ng-enter.ng-enter-active {
+    opacity: 1;
+}
+
+.list-animate.ng-leave.ng-leave-active {
+    opacity: 0;
+}

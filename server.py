@@ -311,6 +311,13 @@ def on_disconnect(*args):
         del online_users[session.get('user').get('username')]
         # sio.send(session.get('user').get('username') + 'is offline', include_self=False)
 
+@sio.on_error_default
+def error_handler(e):
+    print e
+
+@sio.on('auth')
+def on_auth():
+    pass
 
 @sio.on('message')
 def on_message(msg):
@@ -342,11 +349,13 @@ def get_groups():
     data = api_request('get_groups')
     emit('res_groups', data)
 
+
 @sio.on('get_rct_contacts')
 def get_rct_contacts():
     send('get_rct_contacts')
     data = api_request('get_rct_contacts')
     emit('res_rct_contacts', data)
+
 
 def api_request(api_name, data=None):
     try:
