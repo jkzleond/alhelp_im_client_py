@@ -13,7 +13,7 @@
     {% raw %}
     <div id="xximmm" class="xxim_main" ng-controller="MainController" ng-show="app_ready">
         <div class="xxim_top" id="xxim_top" ng-init="tab=1" ng-switch on="tab" ng-controller="ChatListController">
-            <div class="xxim_search"><i></i><input id="xxim_searchkey" />
+            <div class="xxim_search"><i></i><input id="xxim_searchkey" ng-model="search" />
                 <span id="xxim_closesearch">×</span>
             </div>
             <div class="xxim_tabs" id="xxim_tabs">
@@ -24,7 +24,7 @@
             <ul class="xxim_list" style="display:block" ng-switch-when="1">
                 <li class="xxim_liston">
                     <ul class="xxim_chatlist">
-                        <li ng-repeat="friend in friends" data-id="{{ friend.member_id }}" class="xxim_childnode list-animate" type="single">
+                        <li ng-repeat="friend in friends | filter:search" data-id="{{ friend.member_id }}" class="xxim_childnode list-animate" type="single">
                             <img ng-src="{{ friend.avatar }}" class="xxim_oneface">
                             <span class="xxim_onename">{{ friend.nickname || friend.name }}</span>
                         </li>
@@ -34,7 +34,7 @@
             <ul class="xxim_list" style="display:block" ng-switch-when="2">
                 <li class="xxim_liston">
                     <ul class="xxim_chatlist">
-                        <li ng-repeat="group in groups" data-id="{{ group.id }}" class="xxim_childnode list-animate" type="group">
+                        <li ng-repeat="group in groups  | filter:search" data-id="{{ group.id }}" class="xxim_childnode list-animate" type="group">
                             <img ng-src="{{ group.image }}"  class="xxim_oneface">
                             <span  class="xxim_onename">{{ group.name }}</span>
                         </li>
@@ -44,7 +44,7 @@
             <ul class="xxim_list" style="display:block" ng-switch-when="3">
                 <li class="xxim_liston">
                     <ul class="xxim_chatlist">
-                        <li data-id="{{ contact.contact_id }}" class="xxim_childnode list-animate" type="{{ contact.is_to_group == '0' ? 'single' : 'group' }}" ng-repeat="contact in rct_contacts">
+                        <li data-id="{{ contact.contact_id }}" class="xxim_childnode list-animate" type="{{ contact.is_to_group == '0' ? 'single' : 'group' }}" ng-repeat="contact in rct_contacts  | filter:search">
                             <span style="position:relative">
                                 <img ng-src="{{ contact.avatar }}"  class="xxim_oneface">
                             </span>
