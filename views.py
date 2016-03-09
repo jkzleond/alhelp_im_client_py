@@ -1,14 +1,16 @@
 from flask import request, session, render_template
 from app import app
 from models import db, Member
+import im_api
 
 
 @app.route('/')
 def hello_world():
     username = request.args.get('u')
     password = request.args.get('p')
-    session['user'] = {'username':username, 'password': password}
-
+    token_info = im_api.get_token(username, password)
+    session['user'] = token_info.get('member')
+    session['token'] = token_info.get('X-Subject-Token')
     return render_template('index.html')
 
 

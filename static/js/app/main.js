@@ -30,7 +30,10 @@ app.run(['$rootScope', function($rootScope){
 }]);
 
 app.factory('sio', ['$rootScope', function($rootScope){
-    var native_sio = io('/', {transports: ['polling']});
+    var native_sio = io('/', {
+        transports: ['polling'],
+        pingTimeout: 120
+    });
     return {
         on: function(event, callback){
             var self = this;
@@ -70,6 +73,10 @@ app.controller('ChatListController', ['$scope', 'sio', function($scope, sio){
         console.log(msg)
     });
 
+    sio.on('json', function(data){
+        console.log(data)
+    });
+
     sio.on('res_friends', function(res){
         if(res.success == false) return;
         $scope.friends = res.data.list || [];
@@ -84,4 +91,7 @@ app.controller('ChatListController', ['$scope', 'sio', function($scope, sio){
         if(res.success == false) return;
         $scope.rct_contacts = res.data.list || []
     });
+
+    //初始获取好友数据
+    $scope.get_friends()
 }]);

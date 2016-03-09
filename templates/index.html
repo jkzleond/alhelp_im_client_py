@@ -11,7 +11,7 @@
 {% endblock %}
 {% block content %}
     {% raw %}
-    <div id="xximmm" class="xxim_main" ng-controller="MainController" ng-show="app_ready">
+    <div id="xximmm" class="xxim_main list-animate" ng-controller="MainController" ng-init="list_hide=false" ng-show="app_ready" ng-class="{'list-hide':list_hide}">
         <div class="xxim_top" id="xxim_top" ng-init="tab=1" ng-switch on="tab" ng-controller="ChatListController">
             <div class="xxim_search"><i></i><input id="xxim_searchkey" ng-model="search" />
                 <span id="xxim_closesearch">×</span>
@@ -72,7 +72,7 @@
                 </div>
             </li>
             <li class="xxim_hide" id="xxim_hide"><i></i></li>
-            <li id="xxim_on" class="xxim_icon xxim_on"></li>
+            <li id="xxim_on" class="xxim_icon xxim_on" ng-class="{xxim_off:!list_hide}" ng-click="list_hide=!list_hide"></li>
             <div class="layim_min" id="layim_min"></div>
         </ul>
     </div>
