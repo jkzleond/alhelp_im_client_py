@@ -1,0 +1,235 @@
+{% extends('base.html') %}
+{% block head_css %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/qqh.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/qqh_patch.css') }}">
+{% endblock %}
+{% block head_js %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div ng-controller="MainController" style="position:relative;height:2800px;">
+        <div class="qqhrc3_div_top">
+            <div class="qqhrc3_div_top_table_div" ng-controller="UserController">
+                <table class="qqhrc3_div_top_table" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td rowspan="3" width="27%" class="qqhrc_div_left_top_table_tp ">
+                            <img ng-src="<{ user.avatar }>" width="70%" style="border-radius: 5px;" /><br />
+                            <{ user.nickname }>
+                        </td>
+                        <td class="qqhrc_div_left_top_table_txt2">个性签名</td>
+                        <td width="20%">
+                        <div class="qqhrc_div_left_top_table_gb">
+                            <img src="{{ url_for('static', filename='images/x.png') }}" width="100%" /> </div>
+                        <div class="qqhrc_div_left_top_table_zk">
+                            <img src="{{ url_for('static', filename='images/fd.png') }}" width="100%" /> </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                        <div class="qqhrc_div_left_top_table_gn">
+                            <img src="{{ url_for('static', filename='images/spt.png') }}" width="95%" /> </div>
+                        <div class="qqhrc_div_left_top_table_gn">
+                            <img src="{{ url_for('static', filename='images/mk.png') }}" width="100%" /> </div>
+                        <div class="qqhrc_div_left_top_table_gn">
+                            <img src="{{ url_for('static', filename='images/sz.png') }}" width="95%" /> </div>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+            <div ng-controller="ChatListController" ng-init="tab=1">
+                <div class="qqhrc3_div_ss">
+                <div class="qqhrc3_div_ss_input_div">
+                    <input name="Text1" type="text" class="qqhrc3_div_ss_input" ng-model="search.name" />
+                </div>
+                <a href="#">
+                    <div class="qqhrc2_div_right_ss_bt">
+                        <img src="{{ url_for('static', filename='images/cx.png') }}" style="width: 20px; height: 20px; margin: 5px 0 0 5px" />
+                    </div>
+                </a>
+            </div>
+                <div ng-switch on="tab">
+                    <div class="qqh_Menubox4">
+                        <ul>
+                            <li id="f1" ng-class="{hover:tab==1}" ng-mouseover="tab=1;getRctContacts(true)">悄悄话通知</li>
+                            <li id="f2" ng-class="{hover:tab==2}" ng-mouseover="tab=2;getFollows(true)">我的关注</li>
+                            <li id="f3" ng-class="{hover:tab==3}" ng-mouseover="tab=3;getFans(true)">我的粉丝</li>
+                            <li id="f4" ng-class="{hover:tab==4}" ng-mouseover="tab=4;getGroups(true)">我的群聊</li>
+                        </ul>
+                    </div>
+                    <div class="qqh_Contentbox4">
+                        <div id="con_f_1" class="hover qqh_chatlist_container" ng-switch-default="1">
+                            <table class="qqhrc3_div_tab_nr qqh_list_item list-animate" cellpadding="0" cellspacing="0" ng-repeat="contact in rct_contacts | filter:search" ng-click="setChattingUser(contact, contact.is_to_group == '0' ? 'single' : 'group')">
+                                <tr>
+                                    <td class="qqhrc3_div_tab_nr_tp">
+                                        <div class="qqh_avatar_container">
+                                            <img ng-src="<{ contact.avatar }>" width="100%" style="border-radius: 5px;" />
+                                            <div class="qqh_no_read_count" ng-if="contact.no_read_count != 0">
+                                                <{ contact.no_read_count }>
+                                            </div>
+                                        </div>
+                                    <{ contact.name }>
+                                    </td>
+                                    <td valign="top">
+                                    <div class="qqhrc3_div_tab_nr_txt">
+                                        <{ contact.msg_content }>
+                                    </div>
+                                    <div class="qqhrc3_div_tab_nr_txt2">
+                                        兴趣名称</div>
+                                    <div class="qqhrc3_div_tab_nr_txt3">
+                                        上海大学</div>
+                                    </td>
+                                    <td valign="top" width="27%">
+                                        <div class="qqhrc3_div_tab_nr_time">
+                                            <{ contact.msg_time }>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="con_f_2" class="qqh_chatlist_container" ng-switch-when="2">
+                            <div class="qqhrc3_div_tab2_nr qqh_list_item list-animate" ng-repeat="follow in follows | filter:search" ng-click="setChattingUser(follow, 'single')">
+                                <div class="qqhrc3_div_tab2_nr_tp">
+                                    <img ng-src="<{ follow.avatar }>" width="100%"> </div>
+                                <div class="qqhrc3_div_tab2_nr_txt">
+                                    <{ follow.name }>
+                                </div>
+                                <div class="qqhrc3_div_tab2_nr_txt2" ng-show="follow.is_mutual">
+                                    <img src="{{ url_for('static', filename='images/sjt.png') }}" width="15" height="11" />互相关注</div>
+                            </div>
+                        </div>
+                        <div id="con_f_3" class="qqh_chatlist_container" ng-switch-when="3">
+                            <div class="qqhrc3_div_tab2_nr qqh_list_item list-animate" ng-repeat="fan in fans | filter:search" ng-click="setChattingUser(fan, 'single')">
+                                <div class="qqhrc3_div_tab2_nr_tp">
+                                    <img ng-src="<{ fan.avatar }>" width="100%"> </div>
+                                <div class="qqhrc3_div_tab2_nr_txt">
+                                    <{fan.name}>
+                                </div>
+                                <div class="qqhrc3_div_tab2_nr_txt2" ng-show="fan.is_mutual == '1'">
+                                    <img src="{{ url_for('static', filename='images/sjt.png') }}" width="15" height="11" />
+                                    互相关注
+                                </div>
+                                <div class="qqhrc3_div_tab2_nr_txt2" ng-show="fan.is_mutual == '0'">
+                                    <button class="qqh_btn" style="width:50px">关注</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="con_f_4" class="qqh_chatlist_container" ng-switch-when="4">
+                            <div class="qqhrc3_div_tab2_nr qqh_list_item list-animate" ng-repeat="group in groups | filter:search" ng-click="setChattingUser(group, 'group')">
+                                <div class="qqhrc3_div_tab2_nr_tp">
+                                    <img ng-src="<{ group.image }>" width="100%"> </div>
+                                <div class="qqhrc3_div_tab2_nr_txt">
+                                    <{ group.name }>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#  chatbox  #}
+        <div class="qqhrc_div_left" ng-controller="ChatController" ng-show="chatting" im-chatting-box>
+            <div class="qqhrc_div_left_top">
+                <table class="qqhrc_div_left_top_table" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td rowspan="3" width="15%" class="qqhrc_div_left_top_table_tp">
+                            <img ng-src="<{ chatting_user.avatar }>" width="90%" /><br />
+                            <{ chatting_user.name }>
+                        </td>
+                        <td class="qqhrc_div_left_top_table_txt">签名</td>
+                        <td width="13%">
+                            <div class="qqhrc_div_left_top_table_gb">
+                                <img src="{{ url_for('static', filename='images/x.png') }}" width="100%" />
+                            </div>
+                            <div class="qqhrc_div_left_top_table_zk">
+                                <img src="{{ url_for('static', filename='images/fd.png') }}" width="100%" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="qqhrc_div_left_top_table_txt2"></td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                        <div class="qqhrc_div_left_top_table_gn">
+                            <img src="{{ url_for('static', filename='images/spt.png') }}" width="95%" /> </div>
+                        <div class="qqhrc_div_left_top_table_gn">
+                            <img src="{{ url_for('static', filename='images/mk.png') }}" width="100%" /> </div>
+                        <div class="qqhrc_div_left_top_table_gn">
+                            <img src="{{ url_for('static', filename='images/sz.png') }}" width="95%" /> </div>
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="qqhrc_div_left_main msg-show-box">
+                <div class="msg-container" style="float:left; width: 100%">
+                    <div ng-class="{qqhrc_div_left_main_info_a:msg.from_member_id != user.id, qqhrc_div_left_main_info_b:msg.from_member_id == user.id}" ng-repeat="msg in chatting_user.history">
+                        <div ng-class="{qqhrc_div_left_main_info_a_tp:msg.from_member_id != user.id, qqhrc_div_left_main_info_b_tp:msg.from_member_id == user.id}" >
+                            <img ng-src="<{ msg.from_member_id == user.id ? user.avatar : ( msg.is_to_group == '1' ? msg.avatar : chatting_user.avatar ) }>" width="100%" />
+                            <span class="qqh_msg_user_name">
+                                <{ msg.name }>
+                            </span>
+                        </div>
+                        <div ng-class="{qqhrc_div_left_main_info_a_txt:msg.from_member_id != user.id, qqhrc_div_left_main_info_b_txt:msg.from_member_id == user.id}">
+
+                            <!-- 消息内容 -->
+                            <div ng-bind-html="msg.content | safe"></div>
+
+                            <span class="qqh_msg_time">
+                                <{ msg.add_time }>
+                            </span>
+                            <div ng-class="{qqhrc_div_left_main_info_a_jt:msg.from_member_id != user.id, qqhrc_div_left_main_info_b_jt:msg.from_member_id == user.id}" >
+                                <img src="{{ url_for('static', filename='images/w1.png') }}" width="7" height="13" ng-if="msg.from_member_id == user.id"/>
+                                <img src="{{ url_for('static', filename='images/w2.png') }}" width="7" height="13" ng-if="msg.from_member_id != user.id"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="qqhrc_div_left_cz_div">
+                <div class="qqh_div_bq_container emo-layer" ng-show="emo_show" ng-click="emo_show = false">
+                    <ul>
+                        <li class="list-animate emo-item" ng-repeat="emo_num in emos">
+                            <img ng-src="<{ '{{ url_for("static", filename="images/zface/zface", _external=True) }}' + emo_num + '.png'  }>">
+                        </li>
+                    </ul>
+                </div>
+                <div class="qqhrc_div_left_cz_div_tp font-setting">
+                    <img src="{{ url_for('static', filename='images/a.jpg') }}" width="100%" /> </div>
+                <div class="qqhrc_div_left_cz_div_tp emo-setting" ng-click="emo_show=!emo_show">
+                    <img src="{{ url_for('static', filename='images/b.jpg') }}" width="100%" /> </div>
+                <div class="qqhrc_div_left_cz_div_tp">
+                    <img src="{{ url_for('static', filename='images/c.jpg') }}" width="100%" /> </div>
+                <div class="qqhrc_div_left_cz_div_tp file-send">
+                    <img src="{{ url_for('static', filename='images/d.jpg') }}" width="100%" /> </div>
+                <div class="qqhrc_div_left_cz_div_tp image-send">
+                    <img src="{{ url_for('static', filename='images/e.jpg') }}" width="100%" /> </div>
+                <div class="qqhrc_div_left_cz_div_tp">
+                    <img src="{{ url_for('static', filename='images/f.jpg') }}" width="100%" /> </div>
+                <div class="qqhrc_div_left_cz_div_tp2">
+                    <img src="{{ url_for('static', filename='images/jl.jpg') }}" width="100%" /> </div>
+            </div>
+            <div class="qqhrc_div_left_textarea_div">
+                <textarea name="TextArea1" cols="20" rows="2" class="qqhrc_div_left_textarea msg-box" ng-model="msg">
+                </textarea>
+            </div>
+            <div class="qqhrc_div_left_bt_div">
+                <div class="qqhrc_div_left_bt" ng-click="sendMsg()">
+                    发送
+                </div>
+                <div class="qqhrc_div_left_bt">
+                    关闭
+                </div>
+            </div>
+	    </div>
+        {# chatbox end   #}
+    </div>
+{% endblock %}

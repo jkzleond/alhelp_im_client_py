@@ -4,12 +4,30 @@ import json
 import re
 
 
-api_host = 'http://api.alhelp.net/'
-# api_host = 'http://localhost:8850/'
+# api_host = 'http://api.alhelp.net/'
+api_host = 'http://localhost:8850/'
 apis = {
     'get_friends': {
         'need_token': True,
         'url': 'v1/im/friends'
+    },
+    'get_fans': {
+        'need_token': True,
+        'url': 'v1/fans'
+    },
+    'get_follows': {
+        'need_token': True,
+        'method': 'GET',
+        'url' : 'v1/follow'
+    },
+    'send_msg': {
+        'need_token': True,
+        'method': 'POST',
+        'url': 'v1/im/message/:msg_type/:to_id?tis=0',
+        'data': {
+                    'mime_type': 0,
+                    'content': 'haha'
+                }
     },
     'add_single_message': {
         'need_token': True,
@@ -31,7 +49,7 @@ apis = {
     },
     'get_no_read_msg': {
         'need_token': True,
-        'url': 'v1/im/message/no_read',
+        'url': 'v1/im/message/no_read/:type/:from_id',
         'method': 'GET',
         'data': None
     },
@@ -43,7 +61,7 @@ apis = {
     },
     'mark_read_msg': {
         'need_token': True,
-        'url': 'v1/im/message/mark_read/single/516',
+        'url': 'v1/im/message/mark_read/:type/:from_id',
         'method': 'PUT',
         'data': None
     },
@@ -119,7 +137,7 @@ apis = {
     'get_groups': {
         'need_token': True,
         'method': 'GET',
-        'url': 'v1/im/groups'
+        'url': 'v1/im/groups/:uid'
     },
     'get_demand_collaborate': {
         'need_token': True,
@@ -131,12 +149,6 @@ apis = {
         'need_token': True,
         'method': 'GET',
         'url': 'v1/talks/50'
-    },
-    'get_follows': {
-        'need_token': True,
-        'method': 'GET',
-        'url' : 'v1/follow/15034',
-        'data': None
     },
     'get_someone_talks_list': {
         'need_token': True,
@@ -257,7 +269,8 @@ apis = {
     }
 }
 
-token_url = 'http://api.alhelp.net/v1/tokens'
+token_url = api_host + 'v1/tokens'
+
 
 def api_request(api_name, data=None, token=None):
     try:
@@ -270,10 +283,13 @@ def api_request(api_name, data=None, token=None):
 
     def repl_callback(match):
         key = match.group(1)
-        if data is None: return key
+        if data is None:
+            return key
+        elif hasattr(data, key):
+            del data[key]
         return str(data.get(key, ''))
 
-    api_url = re.sub(r':([a-zA-Z]+)', repl_callback, api_url)
+    api_url = re.sub(r':([_a-zA-Z]+)', repl_callback, api_url)
     print api_url
     api_data = json.dumps(data)
     api_method = api_config.get('method', 'GET')
@@ -285,6 +301,7 @@ def api_request(api_name, data=None, token=None):
         api_res = urllib2.urlopen(api_req).read()
         res_data = json.loads(api_res)
     except urllib2.URLError as e:
+        print e
         res_data = {'success': False, 'message': u'请求数据异常'}
     return res_data
 
@@ -299,5 +316,4 @@ def get_token(username, password):
     token_req = urllib2.Request(token_url, data=credential)
     token_res = urllib2.urlopen(token_req)
     token_json = json.loads(token_res.read())
-    print token_json
     return token_json.get('data')

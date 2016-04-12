@@ -1,0 +1,140 @@
+.qqh_btn {
+    border: none;
+    border-radius: 10%;
+    background-color: #1ECCA7;
+    color: #FFF;
+    text-align: center;
+    cursor: pointer;
+}
+
+.qqhrc_div_left_main {
+    height: 322px; !important
+}
+
+.qqhrc_div_left_cz_div {
+    position: relative; !important
+}
+
+.qqh_div_bq_container {
+    position: absolute;
+    bottom: 100%;
+    padding: 1%;
+    width: 98%;
+}
+
+.qqh_div_bq_container ul {
+    margin: auto;
+    border-top: 1px solid #00C69B;
+    border-left: 1px solid #00C69B;
+    border-right: 1px solid #00C69B;
+    border-radius: 5px;
+    width: 85%;
+    height: 200px;
+    background-color: #1ECCA7;
+    list-style: none;
+}
+
+.qqh_div_bq_container li {
+    float: left;
+}
+
+.qqh_div_bq_container li:hover {
+    border-radius: 5px;
+    background-color: #a3cbb6;
+}
+
+.qqh_div_bq_container li img {
+    width: 36px;
+}
+
+.qqhrc_div_left_cz_div_tp {
+    cursor: pointer
+}
+
+.qqhrc_div_left_cz_div_tp:hover {
+    background-color: #1ECCA7;
+}
+
+.qqhrc_div_left_bt {
+    cursor: pointer;
+}
+
+.qqhrc3_div_top {
+    position: absolute;
+    right: 10%;
+}
+
+.qqhrc3_div_top_table_div {
+    width: 282px; !important
+}
+
+.qqhrc_div_left_textarea_div {
+    width: 100%; !important
+}
+
+.qqh_Contentbox4 {
+    height: 480px;
+	overflow-y: hidden; !important
+}
+
+.qqh_Contentbox4:hover {
+	overflow-y: scroll;
+}
+
+.qqh_list_item:hover {
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #1ECCA7
+}
+
+.qqh_avatar_container {
+    position: relative
+}
+
+.qqh_no_read_count {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: #FFF;
+    background-color: red;
+    border-radius: 100%;
+    width: 14px;
+    height: 14px;
+    padding: 1px;
+    line-height: 14px;
+    text-align: center;
+}
+
+
+.qqh_msg_user_name {
+    word-wrap:break-word;
+    word-break: break-all;
+    font-size: 12px;
+}
+
+.qqh_msg_time {
+    position: absolute;
+    top: -18px;
+    color: #999999;
+    font-size: 10px;
+}
+
+.qqhrc_div_left_main_info_a_txt {
+    word-wrap:break-word;
+    word-break: break-all;
+    margin-top: 18px;
+}
+
+.qqhrc_div_left_main_info_b_txt {
+    word-wrap:break-word;
+    word-break: break-all;
+    margin-top: 18px;
+}
+
+.qqhrc_div_left_main_info_a_txt .qqh_msg_time {
+    right: 0px;
+}
+
+.qqhrc_div_left_main_info_b_txt .qqh_msg_time {
+    left: 0px;
+}
