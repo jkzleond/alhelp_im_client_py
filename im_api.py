@@ -4,8 +4,8 @@ import json
 import re
 
 
-# api_host = 'http://api.alhelp.net/'
-api_host = 'http://localhost:8850/'
+api_host = 'http://api.alhelp.net/'
+#api_host = 'http://localhost:8850/'
 apis = {
     'get_friends': {
         'need_token': True,
