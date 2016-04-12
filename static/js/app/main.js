@@ -38,7 +38,7 @@ app.run(['$rootScope', function($rootScope){
 /* 服务 */
 app.factory('sio', ['$rootScope', function($rootScope){
     var native_sio = io('/', {
-        transports: ['websocket'],
+        transports: ['polling'],
         pingTimeout: 120
     });
     return {
