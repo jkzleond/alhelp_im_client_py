@@ -63,6 +63,9 @@ def template_rendered_subscriber(sender, template, context, **extra):
 
 @sio.on('connect')
 def on_connect():
+    """
+    socket.io 连接事件
+    """
     online_users[session.get('user').get('id')] = request.sid
     send('connect')
     # sio.emit('connected', session.get('user').get('username') + 'is online')
@@ -70,6 +73,10 @@ def on_connect():
 
 @sio.on('disconnect')
 def on_disconnect(*args):
+    """
+    socket.io 断开连接事件
+    :param args:
+    """
     if hasattr(online_users, session.get('user').get('id')):
         del online_users[session.get('user').get('id')]
         # sio.send(session.get('user').get('username') + 'is offline', include_self=False)
@@ -86,6 +93,11 @@ def on_auth():
 
 @sio.on('message')
 def on_message(msg):
+    """
+    socket.io 消息事件
+    :param msg:
+    :return:
+    """
     to_sid = None
     if msg.startswith('@'):
         msg_start = msg.index(':')
@@ -103,6 +115,10 @@ def on_message(msg):
 
 @sio.on('get_user_info')
 def get_user_info():
+    """
+    获取用户信息
+    :return:
+    """
     send('get_user_info')
     emit('res_user_info', {
         'success': True,
@@ -112,6 +128,10 @@ def get_user_info():
 
 @sio.on('get_friends')
 def get_friends():
+    """
+    获取好友列表
+    :return:
+    """
     send('get_friends')
     data = api_request('get_friends')
     emit('res_friends', data)
@@ -119,6 +139,10 @@ def get_friends():
 
 @sio.on('get_fans')
 def get_fans():
+    """
+    获取粉丝列表
+    :return:
+    """
     send('get_fans')
     data = api_request('get_fans')
     emit('res_fans', data)
@@ -126,6 +150,10 @@ def get_fans():
 
 @sio.on('get_follows')
 def get_follows():
+    """
+    获取关注列表
+    :return:
+    """
     send('get_follows')
     data = api_request('get_follows')
     emit('res_follows', data)
@@ -133,6 +161,10 @@ def get_follows():
 
 @sio.on('get_groups')
 def get_groups():
+    """
+    获取群列表
+    :return:
+    """
     send('get_groups')
     data = api_request('get_groups', {'uid': session.get('user').get('id')})
     emit('res_groups', data)
@@ -140,6 +172,10 @@ def get_groups():
 
 @sio.on('get_rct_contacts')
 def get_rct_contacts():
+    """
+    获取最近联系人
+    :return:
+    """
     send('get_rct_contacts')
     data = api_request('get_rct_contacts')
     emit('res_rct_contacts', data)
@@ -147,6 +183,11 @@ def get_rct_contacts():
 
 @sio.on('get_no_read_msg')
 def get_no_read_msg(req_data):
+    """
+    获取未读消息
+    :param req_data:
+    :return:
+    """
     send('get_no_read_msg')
     res_data = api_request('get_no_read_msg', req_data)
     emit('res_no_read_msg', res_data)
@@ -166,6 +207,11 @@ def mark_read_msg(req_data):
 
 @sio.on('send')
 def send_msg(data):
+    """
+    发送消息
+    :param data:
+    :return:
+    """
     send('send_msg')
     msg = data.get('msg', {})
     msg_type = 'single' if msg.get('is_to_group', '0') == '0' else 'group'
@@ -188,8 +234,13 @@ def send_msg(data):
     sio.emit('recv', data, room=room)
 
 
-
 def api_request(name, data=None):
+    """
+    发起api请求
+    :param name: api名称
+    :param data: 数据
+    :return:
+    """
     token = session.get('token')
     return im_api.api_request(name, data, token)
 
@@ -200,6 +251,7 @@ if __name__ == '__main__':
     from daemon import runner
 
     if len(opt) > 0 and '-d' in opt[0]:
+        # 带 d 脚本参数 则开守护进程
         sys.argv = [sys.argv[0]] + argv
 
         app.config['DEBUG'] = False

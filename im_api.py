@@ -273,6 +273,13 @@ token_url = api_host + 'v1/tokens'
 
 
 def api_request(api_name, data=None, token=None):
+    """
+    发起api请求
+    :param api_name: api名称
+    :param data: 数据
+    :param token: 用户登录令牌
+    :return:
+    """
     try:
         api_config = apis.get(api_name)
     except KeyError as e:
@@ -307,6 +314,12 @@ def api_request(api_name, data=None, token=None):
 
 
 def get_token(username, password):
+    """
+    获取用户登录令牌
+    :param username: 用户名
+    :param password: 用户密码
+    :return:
+    """
     credential = json.dumps({
             'passwordCredentials': {
                 'username': username,
